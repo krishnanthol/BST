@@ -26,7 +26,7 @@ public class BST<E extends Comparable<E>>
     private void add(TreeNode<E> curr, E val)
     {
         int comp = val.compareTo(curr.value);
-        if(comp == -1)
+        if(comp < 0)
         {
             if(curr.left == null)
             {
@@ -39,7 +39,7 @@ public class BST<E extends Comparable<E>>
             }
         }
 
-        else if (comp == 1)
+        else if (comp > 1)
         {
             if(curr.right == null)
             {
