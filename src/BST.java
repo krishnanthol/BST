@@ -10,6 +10,48 @@ public class BST<E extends Comparable<E>>
         size = 0;
     }
 
+    private class TreeNode <E extends Comparable<E>>
+    {
+        private E value;
+        private TreeNode<E> left;
+        private TreeNode<E> right;
+
+        private TreeNode(E val)
+        {
+            value = val;
+            left = right = null;
+        }
+
+        public String toString()
+        {
+            return value.toString();
+        }
+    }
+
+    public void print()
+    {
+        if (root == null)
+            System.out.print("Empty Tree");
+        print(root, 0, "");
+        System.out.println();
+    }
+    private void print(TreeNode<E> curr, int depth, String s)
+    {
+        if (curr == null)
+            return;
+        for (int i = 1; i <= depth - 1; i++)
+            System.out.print("|\t");
+        if (depth == 0)
+            System.out.println("[" + curr.value + "] <- root (L___ left, R___ right)");
+        if (depth > 0)
+        {
+            System.out.print(s);
+            System.out.println(curr.value);
+        }
+        print(curr.left, depth + 1, "L___"); // indicates left or "less than" side
+        print(curr.right, depth + 1, "R___");  // indicate right or "greater than" side
+    }
+
     public int size()
     {
         return size;
@@ -27,37 +69,6 @@ public class BST<E extends Comparable<E>>
             add(root, val);
         }
     }
-
-    public boolean contains(E val)
-    {
-        if(root.value == val)
-        {
-            return true;
-        }
-        else
-        {
-            TreeNode<E> temp = root;
-            while(val.compareTo(temp.value) != 0)
-            {
-                if(val.compareTo(temp.value) < 0)
-                {
-                    if(temp.left != null)
-                        temp = temp.left;
-                    else
-                        return false;
-                }
-                else if(val.compareTo(temp.value) > 0)
-                {
-                    if(temp.right != null)
-                        temp = temp.right;
-                    else
-                        return false;
-                }
-            }
-            return true;
-        }
-    }
-
     private void add(TreeNode<E> curr, E val)
     {
         int comp = val.compareTo(curr.value);
@@ -88,47 +99,34 @@ public class BST<E extends Comparable<E>>
         }
     }
 
-    private class TreeNode <E extends Comparable<E>>
+    public boolean contains(E val)
     {
-        private E value;
-        private TreeNode<E> left;
-        private TreeNode<E> right;
-
-        private TreeNode(E val)
+        if(root.value.compareTo(val) == 0)
         {
-            value = val;
-            left = right = null;
+            return true;
         }
-
-        public String toString()
+        else
         {
-            return value.toString();
+            TreeNode<E> temp = root;
+            while(val.compareTo(temp.value) != 0)
+            {
+                if(val.compareTo(temp.value) < 0)
+                {
+                    if(temp.left != null)
+                        temp = temp.left;
+                    else
+                        return false;
+                }
+                else if(val.compareTo(temp.value) > 0)
+                {
+                    if(temp.right != null)
+                        temp = temp.right;
+                    else
+                        return false;
+                }
+            }
+            return true;
         }
-    }
-
-    public void print()
-    {
-        if (root == null)
-            System.out.print("Empty Tree");
-        print(root, 0, "");
-        System.out.println();
-    }
-
-    private void print(TreeNode<E> curr, int depth, String s)
-    {
-        if (curr == null)
-            return;
-        for (int i = 1; i <= depth - 1; i++)
-            System.out.print("|\t");
-        if (depth == 0)
-            System.out.println("[" + curr.value + "] <- root (L___ left, R___ right)");
-        if (depth > 0)
-        {
-            System.out.print(s);
-            System.out.println(curr.value);
-        }
-        print(curr.left, depth + 1, "L___"); // indicates left or "less than" side
-        print(curr.right, depth + 1, "R___");  // indicate right or "greater than" side
     }
 
     public String inOrder()
