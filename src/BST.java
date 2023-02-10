@@ -2,12 +2,17 @@ public class BST<E extends Comparable<E>>
 {
     private TreeNode<E> root;
     private int size;
-    private String st;
+    private String st = "";
 
     public BST()
     {
         root = null;
         size = 0;
+    }
+
+    public int size()
+    {
+        return size;
     }
 
     public void add(E val)
@@ -20,6 +25,36 @@ public class BST<E extends Comparable<E>>
         else
         {
             add(root, val);
+        }
+    }
+
+    public boolean contains(E val)
+    {
+        if(root.value == val)
+        {
+            return true;
+        }
+        else
+        {
+            TreeNode<E> temp = root;
+            while(val.compareTo(temp.value) != 0)
+            {
+                if(val.compareTo(temp.value) < 0)
+                {
+                    if(temp.left != null)
+                        temp = temp.left;
+                    else
+                        return false;
+                }
+                else if(val.compareTo(temp.value) > 0)
+                {
+                    if(temp.right != null)
+                        temp = temp.right;
+                    else
+                        return false;
+                }
+            }
+            return true;
         }
     }
 
@@ -39,7 +74,7 @@ public class BST<E extends Comparable<E>>
             }
         }
 
-        else if (comp > 1)
+        else if (comp > 0)
         {
             if(curr.right == null)
             {
@@ -52,6 +87,7 @@ public class BST<E extends Comparable<E>>
             }
         }
     }
+
     private class TreeNode <E extends Comparable<E>>
     {
         private E value;
@@ -97,32 +133,90 @@ public class BST<E extends Comparable<E>>
 
     public String inOrder()
     {
-        if(root == null)
+        if(size == 0)
         {
-           st += "[]";
+           return "[]";
         }
-        inOrder(root);
-        return st;
+        else
+        {
+            st+="[";
+            inOrder(root);
+            String temp = st.substring(0,st.length()-2) + "]";
+            st = "";
+            return temp;
+        }
     }
-
     private void inOrder(TreeNode<E> curr)
     {
-        if(root.left == null)
+        if(curr != null)
         {
+            inOrder(curr.left);
+            st+=curr.value+", ";
+            inOrder(curr.right);
+        }
+    }
 
+    public String preOrder()
+    {
+        if(size == 0)
+        {
+            return "[]";
+        }
+        else
+        {
+            st+="[";
+            preOrder(root);
+            String temp = st.substring(0,st.length()-2) + "]";
+            st = "";
+            return temp;
+        }
+    }
+    public void preOrder(TreeNode<E> curr)
+    {
+        if(curr != null)
+        {
+            st+=curr.value+", ";
+            preOrder(curr.left);
+            preOrder(curr.right);
+        }
+    }
+
+    public String postOrder()
+    {
+        if(size == 0)
+        {
+            return "[]";
+        }
+        else
+        {
+            st+="[";
+            postOrder(root);
+            String temp = st.substring(0,st.length()-2) + "]";
+            st = "";
+            return temp;
+        }
+    }
+    public void postOrder(TreeNode<E> curr)
+    {
+        if(curr != null)
+        {
+            postOrder(curr.left);
+            postOrder(curr.right);
+            st+=curr.value+", ";
         }
     }
 
     public static void main (String[] args)
     {
-        BST<Integer> binary = new BST<>();
-        binary.add(2);
-        binary.add(5);
-        binary.add(7);
-        binary.add(1);
-        binary.add(8);
-        binary.add(1);
-        binary.print();
-        System.out.print(binary.size);
+        String word = "kaleidoscope";
+        BST<Character> bst = new BST<>();
+        for (int i = 0; i < word.length(); i++)
+            bst.add(word.charAt(i));
+        System.out.println("Size => "+bst.size());
+        System.out.println("In Order => "+bst.inOrder());
+        System.out.println("Pre Order => "+bst.preOrder());
+        System.out.println("Post Order => "+bst.postOrder());
+        System.out.println("Contains 'i' => "+bst.contains('i'));
+        System.out.println("Contains 't' => "+bst.contains('t'));
     }
 }
