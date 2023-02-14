@@ -99,6 +99,95 @@ public class BST<E extends Comparable<E>>
         }
     }
 
+    public void remove(E val)
+    {
+        if(this.contains(val))
+        {
+            TreeNode<E> temp = root;
+            TreeNode<E> parent = null;
+
+            while(val.compareTo(temp.value) != 0)
+            {
+                if(val.compareTo(temp.value) < 0)
+                {
+                    if(temp.left != null)
+                    {
+                        parent = temp;
+                        temp = temp.left;
+                    }
+                }
+                else if(val.compareTo(temp.value) > 0)
+                {
+                    if(temp.right != null)
+                    {
+                        parent = temp;
+                        temp = temp.right;
+                    }
+                }
+            }
+
+            //leaf
+            if(temp.left == null && temp.right == null)
+            {
+                if(temp.value.compareTo(parent.value) > 0)
+                {
+                    parent.right = null;
+                }
+                else
+                {
+                    parent.left = null;
+                }
+                size--;
+            }
+
+            //has only one child
+            if((temp.right != null && temp.left == null) || (temp.right == null && temp.left != null))
+            {
+                if(temp.value.compareTo(parent.value) > 0)
+                {
+                    if(temp.right != null)
+                    {
+                        parent.right = temp.right;
+                    }
+                    else
+                    {
+                        parent.right = temp.left;
+                    }
+                }
+                else
+                {
+                    if(temp.right != null)
+                    {
+                        parent.left = temp.right;
+                    }
+                    else
+                    {
+                        parent.left = temp.left;
+                    }
+                }
+                size--;
+            }
+
+            //has 2 children
+            if(temp.right != null && temp.left != null)
+            {
+                if(temp.value.compareTo(parent.value) > 0)
+                {
+
+                }
+                else
+                {
+
+                }
+                size--;
+            }
+        }
+        else
+        {
+            return;
+        }
+    }
+
     public boolean contains(E val)
     {
         if(root.value.compareTo(val) == 0)
@@ -206,6 +295,7 @@ public class BST<E extends Comparable<E>>
 
     public static void main (String[] args)
     {
+        /*
         String word = "kaleidoscope";
         BST<Character> bst = new BST<>();
         for (int i = 0; i < word.length(); i++)
@@ -216,5 +306,19 @@ public class BST<E extends Comparable<E>>
         System.out.println("Post Order => "+bst.postOrder());
         System.out.println("Contains 'i' => "+bst.contains('i'));
         System.out.println("Contains 't' => "+bst.contains('t'));
+         */
+        BST<Integer> bst = new BST<>();
+        bst.add(52);
+        bst.add(26);
+        bst.add(38);
+        bst.add(37);
+        bst.add(58);
+        bst.add(56);
+        bst.add(76);
+        bst.add(71);
+        bst.add(83);
+        bst.add(80);
+        bst.print();
+        System.out.println(bst.inOrder());
     }
 }
