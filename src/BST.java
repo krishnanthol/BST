@@ -1,8 +1,12 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class BST<E extends Comparable<E>>
 {
     private TreeNode<E> root;
     private int size;
     private String st = "";
+    private List<E> inOrder = new ArrayList<E>();
 
     public BST()
     {
@@ -171,14 +175,18 @@ public class BST<E extends Comparable<E>>
             //has 2 children
             if(temp.right != null && temp.left != null)
             {
+                this.inOrder();
                 if(temp.value.compareTo(parent.value) > 0)
                 {
-
+                    E newValue = inOrder.get(inOrder.indexOf(temp.value)-1);
+                    this.remove(inOrder.get(inOrder.indexOf(temp.value)-1));
+                    parent.right.value = inOrder.get(inOrder.indexOf(temp.value)-1);
                 }
                 else
                 {
 
                 }
+                inOrder.clear();
                 size--;
             }
         }
@@ -239,6 +247,7 @@ public class BST<E extends Comparable<E>>
         {
             inOrder(curr.left);
             st+=curr.value+", ";
+            inOrder.add(curr.value);
             inOrder(curr.right);
         }
     }
@@ -318,7 +327,8 @@ public class BST<E extends Comparable<E>>
         bst.add(71);
         bst.add(83);
         bst.add(80);
+        bst.remove(76);
+        bst.add(24);
         bst.print();
-        System.out.println(bst.inOrder());
     }
 }
