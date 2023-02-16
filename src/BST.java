@@ -103,7 +103,7 @@ public class BST<E extends Comparable<E>>
         }
     }
 
-    public void remove(E val)
+    public E remove(E val)
     {
         if(this.contains(val))
         {
@@ -133,6 +133,7 @@ public class BST<E extends Comparable<E>>
             //leaf
             if(temp.left == null && temp.right == null)
             {
+                size--;
                 if(temp.value.compareTo(parent.value) > 0)
                 {
                     parent.right = null;
@@ -141,12 +142,13 @@ public class BST<E extends Comparable<E>>
                 {
                     parent.left = null;
                 }
-                size--;
+                return null;
             }
 
             //has only one child
             if((temp.right != null && temp.left == null) || (temp.right == null && temp.left != null))
             {
+                size--;
                 if(temp.value.compareTo(parent.value) > 0)
                 {
                     if(temp.right != null)
@@ -157,6 +159,7 @@ public class BST<E extends Comparable<E>>
                     {
                         parent.right = temp.left;
                     }
+                    return parent.right.value;
                 }
                 else
                 {
@@ -168,32 +171,33 @@ public class BST<E extends Comparable<E>>
                     {
                         parent.left = temp.left;
                     }
+                    return parent.left.value;
                 }
-                size--;
             }
 
             //has 2 children
             if(temp.right != null && temp.left != null)
             {
                 this.inOrder();
+                E newValue = null;
                 if(temp.value.compareTo(parent.value) > 0)
                 {
-                    E newValue = inOrder.get(inOrder.indexOf(temp.value)-1);
-                    this.remove(inOrder.get(inOrder.indexOf(temp.value)-1));
-                    parent.right.value = inOrder.get(inOrder.indexOf(temp.value)-1);
+                    newValue = inOrder.get(inOrder.indexOf(temp.value)+1);
+                    this.remove(newValue);
+                    parent.right.value = inOrder.get(inOrder.indexOf(temp.value)+1);
                 }
                 else
                 {
-
+                    newValue = inOrder.get(inOrder.indexOf(temp.value)+1);
+                    this.remove(newValue);
+                    parent.left.value = inOrder.get(inOrder.indexOf(temp.value)+1);
                 }
                 inOrder.clear();
                 size--;
+                return newValue;
             }
         }
-        else
-        {
-            return;
-        }
+        return val;
     }
 
     public boolean contains(E val)
@@ -302,6 +306,26 @@ public class BST<E extends Comparable<E>>
         }
     }
 
+    public void rotateRight()
+    {
+        if(root.left != null)
+        {
+            if(root.left.left != null)
+            {
+                rotateRight(root);
+            }
+        }
+    }
+
+    private void rotateRight(TreeNode<E> curr)
+    {
+        TreeNode<E> temp = curr;
+        root = root.left;
+        root.right = temp;
+        root.right.left = temp.right.left;
+        //root.right = temp.left.right;
+    }
+
     public static void main (String[] args)
     {
         /*
@@ -316,19 +340,14 @@ public class BST<E extends Comparable<E>>
         System.out.println("Contains 'i' => "+bst.contains('i'));
         System.out.println("Contains 't' => "+bst.contains('t'));
          */
-        BST<Integer> bst = new BST<>();
-        bst.add(52);
-        bst.add(26);
-        bst.add(38);
-        bst.add(37);
-        bst.add(58);
-        bst.add(56);
-        bst.add(76);
-        bst.add(71);
-        bst.add(83);
-        bst.add(80);
-        bst.remove(76);
-        bst.add(24);
-        bst.print();
+        BST<Integer> tree = new BST<>();
+        int[] nums = {45,13,6,77,23,5,54,24,19,99,24,72,17,18};
+        for (int i: nums)
+            tree.add(i);
+
+        tree.print();
+        tree.rotateRight();
+        tree.print();
+
     }
 }
