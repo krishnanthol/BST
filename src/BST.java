@@ -70,7 +70,10 @@ public class BST<E extends Comparable<E>>
         }
         else
         {
-            add(root, val);
+            if(!this.contains(val))
+            {
+                add(root, val);
+            }
         }
     }
     private void add(TreeNode<E> curr, E val)
@@ -180,22 +183,32 @@ public class BST<E extends Comparable<E>>
             {
                 this.inOrder();
                 E newValue = null;
-                if(temp.value.compareTo(parent.value) > 0)
+                if(val.compareTo(root.value) == 0)
                 {
                     newValue = inOrder.get(inOrder.indexOf(temp.value)+1);
                     this.remove(newValue);
-                    parent.right.value = inOrder.get(inOrder.indexOf(temp.value)+1);
+                    root.value = newValue;
                 }
                 else
                 {
-                    newValue = inOrder.get(inOrder.indexOf(temp.value)+1);
-                    this.remove(newValue);
-                    parent.left.value = inOrder.get(inOrder.indexOf(temp.value)+1);
+                    if(temp.value.compareTo(parent.value) > 0)
+                    {
+                        newValue = inOrder.get(inOrder.indexOf(temp.value)+1);
+                        this.remove(newValue);
+                        parent.right.value = inOrder.get(inOrder.indexOf(temp.value)+1);
+                    }
+                    else
+                    {
+                        newValue = inOrder.get(inOrder.indexOf(temp.value)+1);
+                        this.remove(newValue);
+                        parent.left.value = inOrder.get(inOrder.indexOf(temp.value)+1);
+                    }
                 }
                 inOrder.clear();
                 size--;
                 return newValue;
             }
+
         }
         return val;
     }
@@ -350,8 +363,7 @@ public class BST<E extends Comparable<E>>
         root = temp;
     }
 
-    public static void main (String[] args)
-    {
+    public static void main (String[] args) {
         /*
         String word = "kaleidoscope";
         BST<Character> bst = new BST<>();
@@ -364,22 +376,25 @@ public class BST<E extends Comparable<E>>
         System.out.println("Contains 'i' => "+bst.contains('i'));
         System.out.println("Contains 't' => "+bst.contains('t'));
          */
-        /*
-        BST<Integer> tree = new BST<>();
-        int[] nums = {45,13,6,77,23,5,54,24,19,99,24,72,17,18};
-        for (int i: nums)
+
+
+        BST<Character> tree = new BST<>();
+        Character[] nums = {'a','b','c','d','e','f','g','h'};
+        for (Character i : nums)
             tree.add(i);
 
         tree.print();
+        //System.out.println(tree.preOrder());
         tree.rotateRight();
+        //System.out.println(tree.preOrder());
         tree.print();
-        tree.rotateLeft();
-        tree.print();
-         */
+        //System.out.println(tree.preOrder());
 
+
+        /*
         BST<Integer> tree = new BST<>();
-        int[] nums = {45,13,6,77,23,5,54,24,19,99,24,72,17,18};
-        for (int i: nums)
+        int[] nums = {45, 13, 6, 77, 23, 5, 54, 24, 19, 99, 24, 72, 17, 18};
+        for (int i : nums)
             tree.add(i);
 
         tree.print();
@@ -391,7 +406,6 @@ public class BST<E extends Comparable<E>>
         tree.print();
         tree.remove(45); // Delete the root
         tree.print();
-
-
+         */
     }
 }
