@@ -88,7 +88,7 @@ public class BST<E extends Comparable<E>>
             }
             else
             {
-                add(curr.left,val);
+                add(curr.left,val); //recursive call till space is found to insert node
             }
         }
 
@@ -115,6 +115,7 @@ public class BST<E extends Comparable<E>>
 
             while(val.compareTo(temp.value) != 0)
             {
+                //goes down the tree until the value is found, the value before the found value is saved as the parent
                 if(val.compareTo(temp.value) < 0)
                 {
                     if(temp.left != null)
@@ -182,11 +183,11 @@ public class BST<E extends Comparable<E>>
             //has 2 children
             if(temp.right != null && temp.left != null)
             {
-                this.inOrder();
+                this.inOrder(); //creates a list with the values in order
                 E newValue = null;
                 if(val.compareTo(root.value) == 0)
                 {
-                    newValue = inOrder.get(inOrder.indexOf(temp.value)+1);
+                    newValue = inOrder.get(inOrder.indexOf(temp.value)+1); //gets successor to value being removed
                     this.remove(newValue);
                     root.value = newValue;
                 }
@@ -224,6 +225,7 @@ public class BST<E extends Comparable<E>>
             TreeNode<E> temp = root;
             while(val.compareTo(temp.value) != 0)
             {
+                //go down tree until value is found or end is reached
                 if(val.compareTo(temp.value) < 0)
                 {
                     if(temp.left != null)
