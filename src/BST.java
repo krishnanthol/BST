@@ -136,7 +136,6 @@ public class BST<E extends Comparable<E>>
             //leaf
             if(temp.left == null && temp.right == null)
             {
-                size--;
                 if(temp.value.compareTo(parent.value) > 0)
                 {
                     parent.right = null;
@@ -145,13 +144,13 @@ public class BST<E extends Comparable<E>>
                 {
                     parent.left = null;
                 }
+                size--;
                 return null;
             }
 
             //has only one child
             if((temp.right != null && temp.left == null) || (temp.right == null && temp.left != null))
             {
-                size--;
                 if(temp.value.compareTo(parent.value) > 0)
                 {
                     if(temp.right != null)
@@ -162,6 +161,7 @@ public class BST<E extends Comparable<E>>
                     {
                         parent.right = temp.left;
                     }
+                    size--;
                     return parent.right.value;
                 }
                 else
@@ -174,6 +174,7 @@ public class BST<E extends Comparable<E>>
                     {
                         parent.left = temp.left;
                     }
+                    size--;
                     return parent.left.value;
                 }
             }
@@ -205,7 +206,6 @@ public class BST<E extends Comparable<E>>
                     }
                 }
                 inOrder.clear();
-                size--;
                 return newValue;
             }
 
@@ -247,7 +247,7 @@ public class BST<E extends Comparable<E>>
     {
         if(size == 0)
         {
-           return "[]";
+            return "[]";
         }
         else
         {
@@ -323,20 +323,14 @@ public class BST<E extends Comparable<E>>
     {
         if(root.left != null)
         {
-            if(root.left.left != null)
-            {
-                rotateRight(root);
-            }
+            rotateRight(root);
         }
     }
 
     private void rotateRight(TreeNode<E> curr)
     {
         TreeNode<E> temp = curr.left;
-        if(temp.right != null)
-        {
-            curr.left = temp.right;
-        }
+        curr.left = temp.right;
         temp.right = curr;
         root = temp;
     }
@@ -345,26 +339,21 @@ public class BST<E extends Comparable<E>>
     {
         if(root.right != null)
         {
-            if(root.right.right != null)
-            {
-                rotateLeft(root);
-            }
+            rotateLeft(root);
         }
     }
 
     private void rotateLeft(TreeNode<E> curr)
     {
         TreeNode<E> temp = curr.right;
-        if(temp.left != null)
-        {
-            curr.right = temp.left;
-        }
+        curr.right = temp.left;
         temp.left = curr;
         root = temp;
     }
 
     public static void main (String[] args) {
-        /*
+
+
         String word = "kaleidoscope";
         BST<Character> bst = new BST<>();
         for (int i = 0; i < word.length(); i++)
@@ -375,37 +364,49 @@ public class BST<E extends Comparable<E>>
         System.out.println("Post Order => "+bst.postOrder());
         System.out.println("Contains 'i' => "+bst.contains('i'));
         System.out.println("Contains 't' => "+bst.contains('t'));
-         */
+        bst.print();
+        bst.rotateLeft();
+        System.out.println("In Order => "+bst.inOrder());
+        System.out.println("Pre Order => "+bst.preOrder());
+        System.out.println("Post Order => "+bst.postOrder());
+        bst.rotateRight();
+        bst.print();
 
 
-        BST<Character> tree = new BST<>();
-        Character[] nums = {'a','b','c','d','e','f','g','h'};
-        for (Character i : nums)
-            tree.add(i);
+
+
+        /*
+        BST<Integer> tree = new BST<>();
+        int[] nums = {45,13,6,77,23,5,54,24,19,99,24,72,17,18};
+        for (int i: nums)
+          tree.add(i);
 
         tree.print();
-        //System.out.println(tree.preOrder());
         tree.rotateRight();
-        //System.out.println(tree.preOrder());
         tree.print();
-        //System.out.println(tree.preOrder());
-
+        tree.rotateLeft();
+        tree.print();
+        */
 
         /*
         BST<Integer> tree = new BST<>();
         int[] nums = {45, 13, 6, 77, 23, 5, 54, 24, 19, 99, 24, 72, 17, 18};
         for (int i : nums)
             tree.add(i);
-
         tree.print();
+        System.out.println(tree.size());
         tree.remove(99); // Delete a leaf
         tree.print();
+        System.out.println(tree.size());
         tree.remove(17); // Delete a 1-Child Node
         tree.print();
+        System.out.println(tree.size());
         tree.remove(23); // Delete a 2-Child Node
         tree.print();
+        System.out.println(tree.size());
         tree.remove(45); // Delete the root
         tree.print();
+        System.out.println(tree.size());
          */
     }
 }
